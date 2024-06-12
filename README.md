@@ -1,9 +1,12 @@
+## Why mariadb clustercheck? ##
+From, https://github.com/olafz/percona-clustercheck with some syntax errors fixed, and localized language to mariadb instead of percona.
+
 ## Percona Clustercheck ##
 
-Script to make a proxy (ie HAProxy) capable of monitoring Percona XtraDB Cluster nodes properly.
+Script to make a proxy (ie HAProxy) capable of monitoring Mariadb cluster nodes properly.
 
 ## Usage ##
-Below is a sample configuration for HAProxy on the client. The point of this is that the application will be able to connect to localhost port 3307, so although we are using Percona XtraDB Cluster with several nodes, the application will see this as a single MySQL server running on localhost.
+Below is a sample configuration for HAProxy on the client. The point of this is that the application will be able to connect to localhost port 3307, so although we are using Mariadb cluster with several nodes, the application will see this as a single MySQL server running on localhost.
 
 `/etc/haproxy/haproxy.cfg`
 
@@ -16,7 +19,7 @@ Below is a sample configuration for HAProxy on the client. The point of this is 
         server node2 1.2.3.5:3306 check port 9200 inter 5000 fastinter 2000 rise 2 fall 2
         server node3 1.2.3.6:3306 check port 9200 inter 5000 fastinter 2000 rise 2 fall 2 backup
 
-MySQL connectivity is checked via HTTP on port 9200. The clustercheck script is a simple shell script which accepts HTTP requests and checks MySQL on an incoming request. If the Percona XtraDB Cluster node is ready to accept requests, it will respond with HTTP code 200 (OK), otherwise a HTTP error 503 (Service Unavailable) is returned.
+MySQL connectivity is checked via HTTP on port 9200. The clustercheck script is a simple shell script which accepts HTTP requests and checks MySQL on an incoming request. If the Mariadb cluster node is ready to accept requests, it will respond with HTTP code 200 (OK), otherwise a HTTP error 503 (Service Unavailable) is returned.
 
 ## Setup with xinetd ##
 This setup will create a process that listens on TCP port 9200 using xinetd. This process uses the clustercheck script from this repository to report the status of the node.
